@@ -50,17 +50,23 @@ export const uploadPDFs = async (files) => {
     files.map(async (file) => {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "coderSaad");
-      formData.append("cloud_name", "dplhoc2lf");
+      formData.append("upload_preset", "coderSaad"); // make sure unsigned
 
       const res = await fetch(
         "https://api.cloudinary.com/v1_1/dplhoc2lf/raw/upload",
         { method: "POST", body: formData }
       );
       const data = await res.json();
-      return data.secure_url;
+      console.log("PDF upload response:", data); // <-- check this in console
+
+      if (data.secure_url) {
+        return data.secure_url;
+      } else {
+        throw new Error("PDF upload failed");
+      }
     })
   );
 
   return urls;
 };
+

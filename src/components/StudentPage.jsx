@@ -64,12 +64,7 @@ export default function StudentPage() {
             <button onClick={handleLogout} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">
               Logout
             </button>
-            <button
-              onClick={() => navigate("/assignments")}
-              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600"
-            >
-              View Assignments
-            </button>
+            
 
           </div>
         </div>
@@ -117,7 +112,7 @@ export default function StudentPage() {
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Submit Assignment</button>
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Results</button>
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Download Notes</button>
+              <button onClick={() => navigate("/assignments")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Assignments</button>
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Ask Mentor</button>
             </div>
           </div>

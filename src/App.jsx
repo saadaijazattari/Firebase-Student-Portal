@@ -56,7 +56,7 @@ function AppWrapper() {
       <Route
   path="/assignments"
   element={
-    <ProtectedRoute role="student">
+    <ProtectedRoute>
       <Assignments />
     </ProtectedRoute>
   }

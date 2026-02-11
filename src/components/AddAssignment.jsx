@@ -85,7 +85,7 @@ await addDoc(collection(db, "assignments"), {
             placeholder="Write a short description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="min-h-[110px] w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+            className="min-h-27.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
             required
           />
         </div>
@@ -110,26 +110,34 @@ await addDoc(collection(db, "assignments"), {
   {pdfs.length > 0 ? pdfs.map(pdf => pdf.name).join(", ") : "Optional: PDF files up to 10MB"}
 </span>
 
-              <label className="cursor-pointer text-sm font-medium text-emerald-600 hover:text-emerald-700">
-                Upload
-                <input
-  type="file"
-  accept="image/*"
-  multiple
-  onChange={(e) => setImages(Array.from(e.target.files))}
-  className="hidden"
-/>
+              <div className="flex flex-col gap-2">
 
+  {/* Image Upload */}
+  <label className="cursor-pointer text-sm font-medium text-emerald-600 hover:text-emerald-700">
+    Upload Images
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      onChange={(e) => setImages(Array.from(e.target.files))}
+      className="hidden"
+    />
+  </label>
 
-<input
-  type="file"
-  accept="application/pdf"
-  multiple
-  onChange={(e) => setPdfs(Array.from(e.target.files))}
-  className="hidden"
-/>
+  {/* PDF Upload */}
+  <label className="cursor-pointer text-sm font-medium text-blue-600 hover:text-blue-700">
+    Upload PDFs
+    <input
+      type="file"
+      accept="application/pdf"
+      multiple
+      onChange={(e) => setPdfs(Array.from(e.target.files))}
+      className="hidden"
+    />
+  </label>
 
-              </label>
+</div>
+
             </div>
           </div>
         </div>

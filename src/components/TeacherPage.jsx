@@ -70,7 +70,8 @@ export default function TeacherPage() {
             <button onClick={handleLogout} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">
               Logout
             </button>
-            <TransitionsModal open={open} handleOpen={handleOpen} setOpen={setOpen} />
+
+            
             
             
           </div>
@@ -117,9 +118,9 @@ export default function TeacherPage() {
           <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50" onClick={handleOpen}>Create Assignment</button>
+              <TransitionsModal open={open} handleOpen={handleOpen} setOpen={setOpen} />
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Upload Notes</button>
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Mark Attendance</button>
+              <button onClick={() => navigate("/assignments")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Assignments</button>
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Message Class</button>
             </div>
           </div>
