@@ -11,6 +11,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 import { authListener } from "./firebase/authListener";
 import Assignments from "./components/Assignments";
+import Announcements from "./components/Announcements";
+import AddAnnouncement from "./components/Announcement";
 
 function AppWrapper() {
   const navigate = useNavigate();
@@ -53,6 +55,9 @@ function AppWrapper() {
           </ProtectedRoute>
         }
       />
+      <Route path="/add-announcement" element={<AddAnnouncement />} />
+<Route path="/announcements" element={<Announcements/>} />
+
       <Route
   path="/assignments"
   element={

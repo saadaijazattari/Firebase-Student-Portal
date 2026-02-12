@@ -108,8 +108,8 @@ export default function AdminPage() {
           <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Create Notice</button>
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Approve Users</button>
+              <button onClick={()=> navigate('/add-announcement')} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Create Announcement</button>
+              <button onClick={()=> navigate('/announcements')} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Announcements</button>
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Assign Roles</button>
               <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Reports</button>
             </div>

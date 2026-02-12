@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, orderBy } from "firebase/firestore";
-import Navbar from "./Navbar";
 import { deleteAssignment } from "../firebase/deleteAssignment";
 
 export default function Assignments() {
@@ -41,7 +40,7 @@ export default function Assignments() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      <Navbar />
+
 
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-900 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.25),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(148,163,184,0.2),transparent_40%)]" />
