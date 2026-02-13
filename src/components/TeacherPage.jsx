@@ -1,4 +1,4 @@
-// TeacherPage.jsx
+﻿// TeacherPage.jsx
 import { auth } from "../firebase/firebase.js";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export default function TeacherPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -70,7 +70,12 @@ export default function TeacherPage() {
             <button onClick={handleLogout} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">
               Logout
             </button>
-            <button onClick={()=> navigate('/profile')} className="bg-green/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">View profile</button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-white transition hover:bg-white/20"
+            >
+              View Profile
+            </button>
 
             
             
@@ -120,7 +125,7 @@ export default function TeacherPage() {
             <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <TransitionsModal open={open} handleOpen={handleOpen} setOpen={setOpen} />
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Upload Notes</button>
+              <button onClick={()=> navigate("/announcements")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Announcements</button>
               <button onClick={() => navigate("/assignments")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Assignments</button>
               <button onClick={()=> navigate("/class-messages")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Message Class</button>
             </div>
@@ -152,3 +157,4 @@ export default function TeacherPage() {
     </div>
   );
 }
+

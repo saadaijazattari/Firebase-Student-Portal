@@ -16,6 +16,9 @@ import AddAnnouncement from "./components/Announcement";
 import Profile from "./components/Profile";
 import EditProfile from "./components/EditProfile";
 import ClassMessages from "./components/ClassMessages";
+import SubmitAssignment from "./components/SubmitAssignment";
+import ViewResults from "./components/ViewResults";
+
 
 
 function AppWrapper() {
@@ -24,7 +27,7 @@ function AppWrapper() {
   // 🔐 Global auth listener
   useEffect(() => {
     authListener(navigate);
-  }, []);
+  }, [navigate]);
 
   return (
     <Routes>
@@ -64,6 +67,8 @@ function AppWrapper() {
 <Route path="/profile" element={<Profile />} />
 <Route path="/edit-profile" element={<EditProfile />} />
 <Route path="/class-messages" element={<ClassMessages />} />
+<Route path="/submit-assignment/:id" element={<SubmitAssignment />} />
+<Route path="/view-results/:id" element={<ViewResults />} />
 
 
 

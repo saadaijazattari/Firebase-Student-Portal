@@ -3,12 +3,17 @@ import { auth } from "../firebase/firebase.js";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [announcementsCount, setAnnouncementsCount] = useState(0);
+  const [studentsCount, setStudentsCount] = useState(0);
+const [teachersCount, setTeachersCount] = useState(0);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +27,28 @@ export default function AdminPage() {
       if (docSnap.exists() && docSnap.data().role === "admin") {
         setUserData(docSnap.data());
         console.log("Admin data loaded:", docSnap.data());
+
+        // for announcement count
+        const announcementsSnap = await getDocs(collection(db, "announcements"));
+      setAnnouncementsCount(announcementsSnap.size);
+
+      // for students and teachers count
+      // Users count fetch
+const usersSnap = await getDocs(collection(db, "users"));
+
+let students = 0;
+let teachers = 0;
+
+usersSnap.forEach((doc) => {
+  const role = doc.data().role;
+  if (role === "student") students++;
+  if (role === "teacher") teachers++;
+});
+
+setStudentsCount(students);
+setTeachersCount(teachers);
+
+
       } else {
         navigate("/"); // unauthorized access
       }
@@ -64,7 +91,12 @@ export default function AdminPage() {
             <button onClick={handleLogout} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">
               Logout
             </button>
-            <button onClick={()=> navigate('/profile')} className="bg-green/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">View profile</button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-white transition hover:bg-white/20"
+            >
+              View Profile
+            </button>
           
           </div>
         </div>
@@ -74,13 +106,11 @@ export default function AdminPage() {
         <div className="grid md:grid-cols-3 gap-5">
           <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
             <p className="text-slate-500 text-sm">Total Students</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">1,240</p>
-            <p className="text-emerald-600 text-sm mt-2">+6% this month</p>
+            <p className="text-3xl font-semibold text-slate-900 mt-2">{studentsCount}</p>
           </div>
           <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
             <p className="text-slate-500 text-sm">Total Teachers</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">86</p>
-            <p className="text-cyan-600 text-sm mt-2">+2 new hires</p>
+            <p className="text-3xl font-semibold text-slate-900 mt-2">{teachersCount}</p>
           </div>
           <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
             <p className="text-slate-500 text-sm">Open Requests</p>
@@ -131,7 +161,7 @@ export default function AdminPage() {
             </div>
             <div className="rounded-lg bg-slate-50 p-4">
               <p className="text-slate-500">Announcements</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">4</p>
+              <p className="text-xl font-semibold text-slate-900 mt-1">{announcementsCount}</p>
             </div>
             <div className="rounded-lg bg-slate-50 p-4">
               <p className="text-slate-500">Role</p>

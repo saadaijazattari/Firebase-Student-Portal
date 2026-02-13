@@ -57,9 +57,9 @@ export default function Profile() {
             <div className="-mt-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div className="flex items-end gap-4">
                 <div className="relative">
-                  {userData.photoURL ? (
+                  {userData.imageUrl ? (
                     <img
-                      src={userData.photoURL}
+                      src={userData.imageUrl}
                       alt="Profile"
                       className="h-28 w-28 rounded-2xl border-4 border-white object-cover shadow-lg"
                     />
