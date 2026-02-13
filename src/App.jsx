@@ -13,6 +13,10 @@ import { authListener } from "./firebase/authListener";
 import Assignments from "./components/Assignments";
 import Announcements from "./components/Announcements";
 import AddAnnouncement from "./components/Announcement";
+import Profile from "./components/Profile";
+import EditProfile from "./components/EditProfile";
+import ClassMessages from "./components/ClassMessages";
+
 
 function AppWrapper() {
   const navigate = useNavigate();
@@ -57,6 +61,11 @@ function AppWrapper() {
       />
       <Route path="/add-announcement" element={<AddAnnouncement />} />
 <Route path="/announcements" element={<Announcements/>} />
+<Route path="/profile" element={<Profile />} />
+<Route path="/edit-profile" element={<EditProfile />} />
+<Route path="/class-messages" element={<ClassMessages />} />
+
+
 
       <Route
   path="/assignments"

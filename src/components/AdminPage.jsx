@@ -64,6 +64,8 @@ export default function AdminPage() {
             <button onClick={handleLogout} className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">
               Logout
             </button>
+            <button onClick={()=> navigate('/profile')} className="bg-green/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg">View profile</button>
+          
           </div>
         </div>
       </div>

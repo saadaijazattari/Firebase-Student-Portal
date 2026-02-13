@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, orderBy } from "firebase/firestore";
 import { deleteAssignment } from "../firebase/deleteAssignment";
+import { Link } from "react-router-dom";
 
 export default function Assignments() {
   const [assignments, setAssignments] = useState([]);
@@ -45,6 +46,25 @@ export default function Assignments() {
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-900 text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.25),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(148,163,184,0.2),transparent_40%)]" />
         <div className="relative mx-auto max-w-6xl px-6 py-12">
+
+  {/* 🔙 Back Button */}
+  <div className="mb-4">
+    <Link
+      to={
+        role === "admin"
+          ? "/admin"
+          : role === "teacher"
+          ? "/teacher"
+          : role === "student"
+          ? "/student"
+          : "/"
+      }
+      className="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+    >
+      ← Back
+    </Link>
+  </div>
+
           <p className="text-xs uppercase tracking-[0.32em] text-emerald-200">
             Assignment Center
           </p>
