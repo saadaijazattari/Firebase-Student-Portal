@@ -1,6 +1,7 @@
 // App.jsx
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
 import Signup from "./components/Signup";
 import Login from "./components/Login";
@@ -89,6 +90,13 @@ export default function App() {
   return (
     <Router>
       <AppWrapper />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: { fontSize: "14px" },
+        }}
+      />
     </Router>
   );
 }

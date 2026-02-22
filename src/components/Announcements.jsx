@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
+import Skeleton from "react-loading-skeleton";
 
 export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
@@ -68,8 +69,23 @@ export default function Announcements() {
 
       <div className="mx-auto grid w-full max-w-5xl gap-5 px-4 py-8 sm:px-6">
         {loading ? (
-          <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-            <p className="text-sm font-medium text-slate-600">Loading announcements...</p>
+          <div className="space-y-5">
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <Skeleton height={26} width="45%" />
+              <Skeleton className="mt-2" height={14} width={140} />
+              <div className="mt-5 space-y-2">
+                <Skeleton height={14} />
+                <Skeleton height={14} width="88%" />
+              </div>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+              <Skeleton height={26} width="38%" />
+              <Skeleton className="mt-2" height={14} width={140} />
+              <div className="mt-5 space-y-2">
+                <Skeleton height={14} />
+                <Skeleton height={14} width="82%" />
+              </div>
+            </div>
           </div>
         ) : announcements.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">

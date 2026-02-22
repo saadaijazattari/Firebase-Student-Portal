@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { uploadImages } from "../cloudinary/cloudinary";
+import { toast } from "react-hot-toast";
 
 export default function AddAnnouncement() {
   const [title, setTitle] = useState("");
@@ -13,7 +14,7 @@ export default function AddAnnouncement() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !description) return alert("Fill all fields");
+    if (!title || !description) return toast.error("Fill all fields");
 
     setLoading(true);
     try {
@@ -27,14 +28,14 @@ export default function AddAnnouncement() {
         createdAt: serverTimestamp(),
       });
 
-      alert("Announcement Added");
+      toast.success("Announcement added");
       setTitle("");
       setDescription("");
       setImages([]);
       navigate("/admin");
     } catch (err) {
       console.error(err);
-      alert("Error adding announcement");
+      toast.error("Error adding announcement");
     }
     setLoading(false);
   };

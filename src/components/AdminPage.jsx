@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
+import Skeleton from "react-loading-skeleton";
 
 export default function AdminPage() {
   const navigate = useNavigate();
@@ -57,9 +58,27 @@ export default function AdminPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm text-slate-600">
-          Loading admin dashboard...
+      <div className="min-h-screen bg-slate-50 px-6 py-8">
+        <div className="mx-auto max-w-6xl space-y-6">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <Skeleton height={14} width={180} />
+            <Skeleton className="mt-3" height={34} width="40%" />
+            <Skeleton className="mt-3" height={14} width="55%" />
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Skeleton height={14} width={110} />
+              <Skeleton className="mt-3" height={34} width={70} />
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Skeleton height={14} width={110} />
+              <Skeleton className="mt-3" height={34} width={70} />
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+              <Skeleton height={14} width={110} />
+              <Skeleton className="mt-3" height={34} width={70} />
+            </div>
+          </div>
         </div>
       </div>
     );

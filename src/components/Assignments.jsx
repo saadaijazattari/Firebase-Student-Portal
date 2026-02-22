@@ -3,8 +3,7 @@ import { auth, db } from "../firebase/firebase";
 import { doc, getDoc, collection, getDocs, query, orderBy } from "firebase/firestore";
 import { deleteAssignment } from "../firebase/deleteAssignment";
 import { useNavigate } from "react-router-dom";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
 
 export default function Assignments() {
   const [assignments, setAssignments] = useState([]);
@@ -77,13 +76,24 @@ export default function Assignments() {
 
       <div className="mx-auto max-w-6xl px-6 py-10 grid gap-6">
         {loadingAssignments ? (
-          // <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
-          //   <p className="text-sm font-medium text-slate-600">Loading assignments...</p>
-          // </div>
-          <div>
-    <Skeleton height={30} width={200} />
-    <Skeleton count={3} />
-  </div>
+          <div className="space-y-5">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <Skeleton height={26} width={220} />
+              <div className="mt-4 space-y-2">
+                <Skeleton height={14} />
+                <Skeleton height={14} width="82%" />
+              </div>
+              <Skeleton className="mt-4" height={38} width={170} borderRadius={12} />
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <Skeleton height={26} width={250} />
+              <div className="mt-4 space-y-2">
+                <Skeleton height={14} />
+                <Skeleton height={14} width="76%" />
+              </div>
+              <Skeleton className="mt-4" height={38} width={170} borderRadius={12} />
+            </div>
+          </div>
         ) : assignments.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">
             <h2 className="text-lg font-semibold text-slate-800">No assignments yet</h2>
@@ -91,55 +101,66 @@ export default function Assignments() {
           </div>
         ) : (
           assignments.map((a) => (
-          <article
-            key={a.id}
-            className="rounded-2xl border bg-white p-6 shadow"
+  <article key={a.id} className="rounded-2xl border bg-white p-6 shadow">
+    <h2 className="text-xl font-semibold">{a.title}</h2>
+    <p className="text-slate-600 mt-1">{a.description}</p>
+    <p className="text-sm text-rose-600 mt-1">Due: {a.dueDate}</p>
+
+    {/* Assignment Images */}
+    {a.imageUrls && a.imageUrls.length > 0 && (
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+        {a.imageUrls.map((url, index) => (
+          <img
+            key={index}
+            src={url}
+            alt={`Assignment Image ${index + 1}`}
+            className="rounded-lg border object-cover w-full h-32 sm:h-36 md:h-40"
+          />
+        ))}
+      </div>
+    )}
+
+    {/* STUDENT BUTTON */}
+    {role === "student" && currentUser && (
+      <div className="mt-4">
+        {a.submissions?.[currentUser.uid]?.status === "completed" ? (
+          <button
+            disabled
+            className="bg-gray-400 text-white px-4 py-2 rounded-xl cursor-not-allowed"
           >
-            <h2 className="text-xl font-semibold">{a.title}</h2>
-            <p className="text-slate-600">{a.description}</p>
-            <p className="text-sm text-rose-600 mt-1">Due: {a.dueDate}</p>
+            Submitted ✓
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate(`/submit-assignment/${a.id}`)}
+            className="bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700"
+          >
+            Submit Assignment
+          </button>
+        )}
+      </div>
+    )}
 
-            {/* STUDENT BUTTON */}
-            {role === "student" && currentUser && (
-              <div className="mt-4">
-                {a.submissions?.[currentUser.uid]?.status === "completed" ? (
-                  <button
-                    disabled
-                    className="bg-gray-400 text-white px-4 py-2 rounded-xl cursor-not-allowed"
-                  >
-                    Submitted ✓
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => navigate(`/submit-assignment/${a.id}`)}
-                    className="bg-emerald-600 text-white px-4 py-2 rounded-xl hover:bg-emerald-700"
-                  >
-                    Submit Assignment
-                  </button>
-                )}
-              </div>
-            )}
+    {/* TEACHER BUTTON */}
+    {role === "teacher" && (
+      <div className="mt-4 flex gap-2">
+        <button
+          onClick={() => navigate(`/view-results/${a.id}`)}
+          className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+        >
+          View Results
+        </button>
 
-            {/* TEACHER BUTTON */}
-            {role === "teacher" && (
-              <div className="mt-4 flex gap-2">
-                <button
-                  onClick={() => navigate(`/view-results/${a.id}`)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
-                >
-                  View Results
-                </button>
-
-                <button
-                  onClick={() => handleDelete(a.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </article>
-          ))
+        <button
+          onClick={() => handleDelete(a.id)}
+          className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    )}
+  </article>
+))
         )}
       </div>
     </div>

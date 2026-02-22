@@ -2,6 +2,7 @@ import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import { uploadImages, uploadPDFs } from "../cloudinary/cloudinary";
+import { toast } from "react-hot-toast";
 
 export default function AddAssignment({ handleClose }) {
   const [title, setTitle] = useState("");
@@ -32,7 +33,7 @@ export default function AddAssignment({ handleClose }) {
         createdAt: serverTimestamp(),
       });
 
-      alert("Assignment Added");
+      toast.success("Assignment added");
       handleClose();
       setTitle("");
       setDescription("");
@@ -41,7 +42,7 @@ export default function AddAssignment({ handleClose }) {
       setPdfs([]);
     } catch (error) {
       console.error(error);
-      alert("Error adding assignment");
+      toast.error("Error adding assignment");
     }
 
     setLoading(false);

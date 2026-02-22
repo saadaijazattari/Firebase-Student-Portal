@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
 import TransitionsModal from "./Modal.jsx";
+import Skeleton from "react-loading-skeleton";
 
 
 
@@ -41,9 +42,22 @@ export default function TeacherPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="rounded-xl border border-slate-200 bg-white px-6 py-4 shadow-sm text-slate-600">
-          Loading teacher dashboard...
+      <div className="min-h-screen bg-slate-50 px-6 py-8">
+        <div className="mx-auto max-w-6xl space-y-6">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <Skeleton height={14} width={180} />
+            <Skeleton className="mt-3" height={34} width="40%" />
+            <Skeleton className="mt-3" height={14} width="55%" />
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <Skeleton height={20} width={160} />
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Skeleton height={44} borderRadius={12} />
+              <Skeleton height={44} borderRadius={12} />
+              <Skeleton height={44} borderRadius={12} />
+              <Skeleton height={44} borderRadius={12} />
+            </div>
+          </div>
         </div>
       </div>
     );

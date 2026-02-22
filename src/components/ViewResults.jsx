@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import Skeleton from "react-loading-skeleton";
 
 export default function ViewResults() {
   const { id } = useParams(); // assignmentId
@@ -43,10 +44,18 @@ export default function ViewResults() {
 
   if (!assignment)
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6">
-        <p className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-slate-600 shadow-sm">
-          Loading results...
-        </p>
+      <div className="mx-auto mt-8 max-w-5xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <Skeleton height={30} width="45%" />
+          <div className="mt-4 space-y-2">
+            <Skeleton height={14} />
+            <Skeleton height={14} width="90%" />
+          </div>
+          <div className="mt-6 border-t border-slate-200 pt-6 space-y-3">
+            <Skeleton height={70} borderRadius={16} />
+            <Skeleton height={70} borderRadius={16} width="94%" />
+          </div>
+        </div>
       </div>
     );
 
@@ -104,7 +113,7 @@ export default function ViewResults() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="text-sm font-semibold text-slate-900 sm:text-base">
-                      {studentNames[studentId] || "Loading..."}
+                      {studentNames[studentId] || <Skeleton width={110} />}
                     </p>
                     <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium capitalize text-emerald-700 sm:text-sm">
                       {data.status}

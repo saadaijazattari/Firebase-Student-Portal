@@ -6,6 +6,7 @@ import { uploadImage } from "../cloudinary/cloudinary.js";
 // import { doc, setDoc } from "";
 import { Link, useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-hot-toast";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -42,7 +43,7 @@ export default function Signup() {
 
     } catch (err) {
       console.log(err);
-      alert("Signup failed: " + err.message);
+      toast.error("Signup failed: " + err.message);
     }
   };
 

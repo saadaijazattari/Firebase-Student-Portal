@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebase.js";
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from "firebase/firestore";
 import { uploadImages, uploadPDFs } from "../cloudinary/cloudinary";
+import { toast } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 
 export default function ClassMessages() {
   const [message, setMessage] = useState("");
@@ -42,7 +44,7 @@ export default function ClassMessages() {
       if (pdfs.length > 0) pdfUrls = await uploadPDFs(pdfs);
     } catch (err) {
       console.error("Upload failed:", err);
-      alert("Failed to upload files");
+      toast.error("Failed to upload files");
       return;
     }
 
@@ -63,8 +65,10 @@ export default function ClassMessages() {
   if (!user) {
     return (
       <div className="grid min-h-screen place-items-center bg-slate-100 px-4">
-        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600 shadow-sm">
-          Loading chat...
+        <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <Skeleton height={20} width={140} />
+          <Skeleton className="mt-3" height={12} />
+          <Skeleton className="mt-2" height={12} width="84%" />
         </div>
       </div>
     );
@@ -92,8 +96,10 @@ export default function ClassMessages() {
         <div className="flex-1 overflow-y-auto rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="space-y-4">
             {loadingMessages ? (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm font-medium text-slate-600">
-                Loading messages...
+              <div className="space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+                <Skeleton height={64} borderRadius={16} />
+                <Skeleton height={64} borderRadius={16} width="82%" />
+                <Skeleton height={64} borderRadius={16} width="72%" />
               </div>
             ) : messages.length === 0 && (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">

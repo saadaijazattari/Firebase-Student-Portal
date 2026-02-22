@@ -1,5 +1,6 @@
 // firebase/deleteAssignment.js
 import { doc, deleteDoc } from "firebase/firestore";
+import { toast } from "react-hot-toast";
 import { db } from "./firebase.js";
 
 export const deleteAssignment = async (id) => {
@@ -8,9 +9,9 @@ export const deleteAssignment = async (id) => {
 
   try {
     await deleteDoc(doc(db, "assignments", id));
-    alert("Assignment deleted ✅");
+    toast.success("Assignment deleted");
   } catch (err) {
     console.error(err);
-    alert("Error deleting assignment");
+    toast.error("Error deleting assignment");
   }
 };

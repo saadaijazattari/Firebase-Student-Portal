@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../firebase/firebase";
 import { uploadPDFs } from "../cloudinary/cloudinary";
+import { toast } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 
 export default function SubmitAssignment() {
   const { id } = useParams();
@@ -53,7 +55,7 @@ export default function SubmitAssignment() {
         },
       });
 
-      alert("Assignment submitted successfully!");
+      toast.success("Assignment submitted successfully!");
 
       // Prevent re-submit
       setAlreadySubmitted(true);
@@ -62,7 +64,7 @@ export default function SubmitAssignment() {
       window.location.reload(); // refresh UI
     } catch (err) {
       console.error(err);
-      alert("Failed to submit assignment");
+      toast.error("Failed to submit assignment");
     }
 
     setLoading(false);
@@ -70,10 +72,24 @@ export default function SubmitAssignment() {
 
   if (!assignment)
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6">
-        <p className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-slate-600 shadow-sm">
-          Loading assignment...
-        </p>
+      <div className="mx-auto mt-8 max-w-3xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <Skeleton height={30} width="55%" />
+          <div className="mt-4 space-y-2">
+            <Skeleton height={14} />
+            <Skeleton height={14} width="90%" />
+            <Skeleton height={14} width="80%" />
+          </div>
+          <div className="mt-4">
+            <Skeleton height={28} width={180} borderRadius={999} />
+          </div>
+          <div className="mt-6 border-t border-slate-200 pt-6">
+            <Skeleton height={44} borderRadius={12} />
+            <div className="mt-4">
+              <Skeleton height={40} width={180} borderRadius={12} />
+            </div>
+          </div>
+        </div>
       </div>
     );
 

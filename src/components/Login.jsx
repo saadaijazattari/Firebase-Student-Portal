@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebase.js";
 import { doc, getDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log(err);
-      alert("Login failed: " + err.message);
+      toast.error("Login failed: " + err.message);
     }
   };
 

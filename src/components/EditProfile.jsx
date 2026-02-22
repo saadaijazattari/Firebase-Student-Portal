@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase.js";
 import { uploadImage } from "../cloudinary/cloudinary.js";
+import { toast } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
 
 export default function EditProfile() {
   const [name, setName] = useState("");
@@ -37,8 +39,21 @@ export default function EditProfile() {
   if (loadingProfile) {
     return (
       <div className="grid min-h-screen place-items-center bg-slate-100 px-4">
-        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600 shadow-sm">
-          Loading profile...
+        <div className="w-full max-w-3xl rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-end">
+            <Skeleton circle width={112} height={112} />
+            <div className="w-full sm:w-64">
+              <Skeleton height={14} width={130} />
+              <Skeleton className="mt-2" height={34} borderRadius={12} />
+            </div>
+          </div>
+          <div className="mt-6 space-y-2">
+            <Skeleton height={14} width={100} />
+            <Skeleton height={42} borderRadius={12} />
+          </div>
+          <div className="mt-6 flex justify-end">
+            <Skeleton height={42} width={150} borderRadius={12} />
+          </div>
         </div>
       </div>
     );
@@ -55,11 +70,11 @@ export default function EditProfile() {
       if (image) imageUrl = await uploadImage(image);
 
       await updateDoc(doc(db, "users", user.uid), { name, imageUrl });
-      alert("Profile updated successfully");
+      toast.success("Profile updated successfully");
       navigate("/profile");
     } catch (err) {
       console.log(err);
-      alert("Update failed: " + err.message);
+      toast.error("Update failed: " + err.message);
     }
     setSaving(false);
   };
