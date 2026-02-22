@@ -43,7 +43,15 @@ export default function ProtectedRoute({ children, role }) {
     return () => unsubscribe();
   }, [role]);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-100 px-4">
+        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600 shadow-sm">
+          Checking access...
+        </div>
+      </div>
+    );
+  }
 
   if (!allowed) return <Navigate to="/" replace />;
 

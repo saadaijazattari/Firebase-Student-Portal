@@ -78,8 +78,25 @@ export default function SubmitAssignment() {
     );
 
   return (
-    <div className="mx-auto mt-8 max-w-3xl px-4 pb-10 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+    <div className="min-h-screen bg-slate-100">
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-emerald-900 text-white">
+        <div className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-emerald-200">Assignment</p>
+            <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">Submit Work</h1>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="rounded-xl border border-white/25 bg-white/10 px-4 py-2 text-sm font-medium transition hover:bg-white/20"
+          >
+            Back
+          </button>
+        </div>
+      </div>
+
+      <div className="mx-auto mt-8 max-w-3xl px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
         <div className="bg-gradient-to-r from-emerald-50 via-white to-cyan-50 p-6 sm:p-8">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             {assignment.title}
@@ -123,6 +140,7 @@ export default function SubmitAssignment() {
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -9,25 +9,40 @@ export default function EditProfile() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [saving, setSaving] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadUser = async () => {
-      const user = auth.currentUser;
-      if (!user) return navigate("/");
+      try {
+        const user = auth.currentUser;
+        if (!user) return navigate("/");
 
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setName(data.name || "");
-        setPreview(data.imageUrl || "");
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setName(data.name || "");
+          setPreview(data.imageUrl || "");
+        }
+      } finally {
+        setLoadingProfile(false);
       }
     };
 
     loadUser();
   }, [navigate]);
+
+  if (loadingProfile) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-slate-100 px-4">
+        <div className="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-sm text-slate-600 shadow-sm">
+          Loading profile...
+        </div>
+      </div>
+    );
+  }
 
   const handleUpdate = async (e) => {
     e.preventDefault();

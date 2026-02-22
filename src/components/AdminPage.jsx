@@ -11,9 +11,7 @@ export default function AdminPage() {
   const [userData, setUserData] = useState(null);
   const [announcementsCount, setAnnouncementsCount] = useState(0);
   const [studentsCount, setStudentsCount] = useState(0);
-const [teachersCount, setTeachersCount] = useState(0);
-
-
+  const [teachersCount, setTeachersCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,35 +24,31 @@ const [teachersCount, setTeachersCount] = useState(0);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists() && docSnap.data().role === "admin") {
         setUserData(docSnap.data());
-        console.log("Admin data loaded:", docSnap.data());
 
         // for announcement count
         const announcementsSnap = await getDocs(collection(db, "announcements"));
-      setAnnouncementsCount(announcementsSnap.size);
+        setAnnouncementsCount(announcementsSnap.size);
 
-      // for students and teachers count
-      // Users count fetch
-const usersSnap = await getDocs(collection(db, "users"));
+        // for students and teachers count
+        const usersSnap = await getDocs(collection(db, "users"));
 
-let students = 0;
-let teachers = 0;
+        let students = 0;
+        let teachers = 0;
 
-usersSnap.forEach((doc) => {
-  const role = doc.data().role;
-  if (role === "student") students++;
-  if (role === "teacher") teachers++;
-});
+        usersSnap.forEach((docItem) => {
+          const role = docItem.data().role;
+          if (role === "student") students++;
+          if (role === "teacher") teachers++;
+        });
 
-setStudentsCount(students);
-setTeachersCount(teachers);
-
-
+        setStudentsCount(students);
+        setTeachersCount(teachers);
       } else {
         navigate("/"); // unauthorized access
       }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -113,60 +107,38 @@ setTeachersCount(teachers);
             <p className="text-3xl font-semibold text-slate-900 mt-2">{teachersCount}</p>
           </div>
           <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
-            <p className="text-slate-500 text-sm">Open Requests</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">14</p>
-            <p className="text-amber-600 text-sm mt-2">3 urgent</p>
+            <p className="text-slate-500 text-sm">Announcements</p>
+            <p className="text-3xl font-semibold text-slate-900 mt-2">{announcementsCount}</p>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">Recent Activities</h2>
-            <div className="mt-4 space-y-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">New student registrations</span>
-                <span className="text-slate-900 font-medium">+24</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">Role updates approved</span>
-                <span className="text-slate-900 font-medium">8</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">Pending support tickets</span>
-                <span className="text-slate-900 font-medium">5</span>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
-            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <button onClick={()=> navigate('/add-announcement')} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Create Announcement</button>
-              <button onClick={()=> navigate('/announcements')} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Announcements</button>
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Assign Roles</button>
-              <button className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Reports</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">System Overview</h2>
-          <div className="mt-4 grid md:grid-cols-4 gap-4 text-sm">
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Active Sessions</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">312</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Server Health</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">99.9%</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Announcements</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">{announcementsCount}</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Role</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1 capitalize">{userData.role}</p>
-            </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
+          <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+            <button
+              onClick={() => navigate("/add-announcement")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              Create Announcement
+            </button>
+            <button
+              onClick={() => navigate("/announcements")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              View Announcements
+            </button>
+            <button
+              onClick={() => navigate("/class-messages")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              Class Messages
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              My Profile
+            </button>
           </div>
         </div>
       </div>

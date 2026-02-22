@@ -8,6 +8,7 @@ import { db } from "../firebase/firebase.js";
 export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -27,9 +28,13 @@ export default function Announcements() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
-      const snapshot = await getDocs(q);
-      setAnnouncements(snapshot.docs.map((docItem) => ({ id: docItem.id, ...docItem.data() })));
+      try {
+        const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+        setAnnouncements(snapshot.docs.map((docItem) => ({ id: docItem.id, ...docItem.data() })));
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -62,7 +67,11 @@ export default function Announcements() {
       </div>
 
       <div className="mx-auto grid w-full max-w-5xl gap-5 px-4 py-8 sm:px-6">
-        {announcements.length === 0 ? (
+        {loading ? (
+          <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
+            <p className="text-sm font-medium text-slate-600">Loading announcements...</p>
+          </div>
+        ) : announcements.length === 0 ? (
           <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-10 text-center shadow-sm">
             <h2 className="text-lg font-semibold text-slate-800">No announcements yet</h2>
             <p className="mt-2 text-sm text-slate-500">Published announcements will appear here.</p>

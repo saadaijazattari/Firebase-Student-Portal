@@ -9,6 +9,7 @@ export default function ClassMessages() {
   const [messages, setMessages] = useState([]);
   const [images, setImages] = useState([]);
   const [pdfs, setPDFs] = useState([]);
+  const [loadingMessages, setLoadingMessages] = useState(true);
   const scrollRef = useRef(null);
   const navigate = useNavigate();
 
@@ -20,6 +21,7 @@ export default function ClassMessages() {
     const q = query(collection(db, "classMessages"), orderBy("createdAt", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setMessages(snapshot.docs.map((docItem) => ({ id: docItem.id, ...docItem.data() })));
+      setLoadingMessages(false);
     });
     return () => unsubscribe();
   }, [user]);
@@ -89,7 +91,11 @@ export default function ClassMessages() {
       <div className="mx-auto flex h-[calc(100vh-96px)] w-full max-w-5xl flex-col px-4 py-4 sm:px-6 sm:py-6">
         <div className="flex-1 overflow-y-auto rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="space-y-4">
-            {messages.length === 0 && (
+            {loadingMessages ? (
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center text-sm font-medium text-slate-600">
+                Loading messages...
+              </div>
+            ) : messages.length === 0 && (
               <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">
                 No messages yet. Start the conversation.
               </div>

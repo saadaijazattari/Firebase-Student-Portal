@@ -2,10 +2,9 @@
 import { auth } from "../firebase/firebase.js";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase.js";
-import AddAssignment from "./AddAssignment.jsx";
 import TransitionsModal from "./Modal.jsx";
 
 
@@ -14,8 +13,8 @@ import TransitionsModal from "./Modal.jsx";
 export default function TeacherPage() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +56,7 @@ export default function TeacherPage() {
           <div>
             <p className="text-emerald-300 text-xs uppercase tracking-[0.2em]">Teacher Dashboard</p>
             <h1 className="text-3xl font-semibold mt-2">Welcome, {userData.name}</h1>
-            <p className="text-slate-300 mt-1">Manage classes, track progress, and guide students.</p>
+            <p className="text-slate-300 mt-1">Manage assignments and classroom communication.</p>
           </div>
           <div className="flex items-center gap-4">
             {userData.imageUrl && (
@@ -76,85 +75,46 @@ export default function TeacherPage() {
             >
               View Profile
             </button>
-
-            
-            
-            
           </div>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
-        <div className="grid md:grid-cols-3 gap-5">
-          <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
-            <p className="text-slate-500 text-sm">Total Classes</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">6</p>
-            <p className="text-emerald-600 text-sm mt-2">2 in progress</p>
-          </div>
-          <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
-            <p className="text-slate-500 text-sm">Assignments to Review</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">18</p>
-            <p className="text-amber-600 text-sm mt-2">5 due today</p>
-          </div>
-          <div className="rounded-xl bg-white border border-slate-200 p-5 shadow-sm">
-            <p className="text-slate-500 text-sm">Avg Class Score</p>
-            <p className="text-3xl font-semibold text-slate-900 mt-2">82%</p>
-            <p className="text-cyan-600 text-sm mt-2">+4% this term</p>
-          </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Account Role</p>
+          <p className="mt-2 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold capitalize text-emerald-700">
+            {userData.role}
+          </p>
+          <p className="mt-4 text-sm text-slate-600">
+            Create assignments, review student submissions, and post class updates.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">Today's Schedule</h2>
-            <div className="mt-4 space-y-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">Class 10A - Physics</span>
-                <span className="text-slate-900 font-medium">10:00 AM</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">Class 9B - Math</span>
-                <span className="text-slate-900 font-medium">12:30 PM</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-slate-600">Class 11C - CS</span>
-                <span className="text-slate-900 font-medium">3:00 PM</span>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
-            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <TransitionsModal open={open} handleOpen={handleOpen} setOpen={setOpen} />
-              <button onClick={()=> navigate("/announcements")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Announcements</button>
-              <button onClick={() => navigate("/assignments")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">View Assignments</button>
-              <button onClick={()=> navigate("/class-messages")} className="rounded-lg border border-slate-200 px-3 py-2 text-slate-700 hover:bg-slate-50">Message Class</button>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-xl bg-white border border-slate-200 p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Class Overview</h2>
-          <div className="mt-4 grid md:grid-cols-4 gap-4 text-sm">
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Students</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">148</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Assignments</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">22</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Pending Reviews</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1">18</p>
-            </div>
-            <div className="rounded-lg bg-slate-50 p-4">
-              <p className="text-slate-500">Role</p>
-              <p className="text-xl font-semibold text-slate-900 mt-1 capitalize">{userData.role}</p>
-            </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
+          <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+            <TransitionsModal open={open} handleOpen={handleOpen} setOpen={setOpen} />
+            <button
+              onClick={() => navigate("/assignments")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              View Assignments
+            </button>
+            <button
+              onClick={() => navigate("/announcements")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              View Announcements
+            </button>
+            <button
+              onClick={() => navigate("/class-messages")}
+              className="rounded-xl border border-slate-200 px-4 py-2.5 text-slate-700 transition hover:bg-slate-50"
+            >
+              Class Messages
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
